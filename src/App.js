@@ -1,18 +1,44 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
 import './App.css';
+import GridRow from './Components/GridRow';
+import GridCell from './Components/GridCell';
 
 class App extends Component {
+
+  constructor(props)
+  {
+    super(props);
+    this.state = {
+      height: 0,
+      width: 0,
+      elementsPos:[]
+    }
+  }
+
+  getRowColumns = () => {
+    const height = parseInt(prompt('Enter height'), 10);
+    const width = parseInt(prompt('Enter width'), 10);
+
+    this.setState({ height, width });
+  }
+
+
   render() {
+    let items =[];
+    let ind = 0;
+
+    if (this.state.height > 0 && this.state.width > 0){
+      for (let i = 0; i < this.state.height; i++){
+        items.push(<GridRow key={i} height= {this.state.height} elementsPos = {this.state.elementsPos} width={this.state.width}>{(i)=><GridCell key={ind++}></GridCell>}</GridRow>);
+      }
+    }
+
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <input type='button' onClick={this.getRowColumns} value="Provide height and width" />
+        <table>
+          <tbody>{items}</tbody>
+        </table>
       </div>
     );
   }
